@@ -1,11 +1,13 @@
 from Niveles.configuraciones import *
-class Enemigo:
-    def __init__(self, tamaño, animaciones, posicion_inicial,velocidad, limite_x):
+import random 
+
+class Proyectil:
+    def __init__(self, tamaño, posicion_inicial, velocidad, limite, animaciones,direccion):
         self.ancho = tamaño[0]
         self.alto = tamaño[1]
 
         self.contador_pasos = 0
-        self.que_hace = "Derecha"
+        self.que_hace = direccion
         self.animaciones = animaciones
         self.reescalar_animaciones()
 
@@ -13,9 +15,9 @@ class Enemigo:
         rectangulo.x = posicion_inicial[0]
         rectangulo.y = posicion_inicial[1]
         self.lados = obtener_rectangulos(rectangulo)
+
         self.velocidad = velocidad
-        self.desplazamiento_y = 0
-        self.limite_x = limite_x
+        self.limite_x = limite
 
     def reescalar_animaciones(self):
         for clave in self.animaciones:
@@ -28,44 +30,37 @@ class Enemigo:
             self.contador_pasos = 0
         pantalla.blit(animacion[self.contador_pasos], self.lados["main"])
         self.contador_pasos += 1
-
-    def cambiar_direccion(self):
-        if self.velocidad > 0:
-            self.que_hace = "Derecha"
-        else:
-            self.que_hace = "Izquierda"
-
-    def mover_enemigo(self, pantalla,lista_plataformas,lista_enemigos):
-        self.animar(pantalla, self.que_hace)
-        self.lados["main"].x += self.velocidad
-
+    
+    def mover_proyectil(self,lista_plataformas,pantalla, personaje,boss):
+        if self.que_hace == "Derecha":
+            self.lados["main"].x += self.velocidad
+            self.animar(pantalla,"Derecha")
+        elif self.que_hace == "Izquierda":
+            self.lados["main"].x -= self.velocidad
+            self.animar(pantalla,"Izquierda")        
         if self.lados["main"].x < 0 or self.lados["main"].x > self.limite_x:
-            self.velocidad *= -1
-            self.cambiar_direccion()
-
+            self.desaparecer_municion()
         if self.lados["main"].x < 0:
-            self.lados["main"].x = 0
-            self.cambiar_direccion()
+            self.desaparecer_municion()
         elif self.lados["main"].x > self.limite_x:
-            self.lados["main"].x = self.limite_x
-            self.cambiar_direccion()
-
+            self.desaparecer_municion()
         for lado in self.lados:
             if lado != "main":
                 self.lados[lado].x = self.lados["main"].x
-        
         for plataforma in lista_plataformas:
             if self.lados["main"].colliderect(plataforma.lados["main"]):
-                self.velocidad *= -1
-                self.cambiar_direccion()
-                break 
-        for enemigo in lista_enemigos:
-            if enemigo != self and self.lados["main"].colliderect(enemigo.lados["main"]):
-                self.velocidad *= -1
-                self.cambiar_direccion()
-                break        
-            
-                         
+                self.desaparecer_municion() 
+        if self.lados["main"].colliderect(personaje.lados["main"]):
+            personaje.que_hace = "Dañado"
+            personaje.sonido_colision.play()
+            personaje.vida -= 1
+            self.desaparecer_municion()
+        if self.lados["main"].colliderect(boss.lados["main"]):
+            boss.que_hace = "Dañado"
+            boss.vida -= 1
+            self.desaparecer_municion()    
 
 
-
+    def desaparecer_municion(self):
+        self.lados["main"].x = random.randrange(0,4440,60)
+        self.lados["main"].y = random.randrange(-1000, 0, 60)            

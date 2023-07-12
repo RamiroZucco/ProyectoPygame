@@ -20,8 +20,8 @@ class FormPausa(Form):
         
         self._slave = aux_imagen
         
-        self.btn_config = Button_Image(self._slave,x,y,340,450,50,50,"PROYECTO PYGAME\\Recursos\\Interfaz\\1.png",self.btn_config_click,"None")
-        self.btn_continuar = Button_Image(self._slave,x,y, 195, 455, 115, 45,"PROYECTO PYGAME\\Recursos\\Interfaz\\5.png",self.btn_continuar_click,"None")
+        self.btn_config = Button_Image(self._slave,x,y,340,450,50,50,"PROYECTO PYGAME copy\\Recursos\\Interfaz\\1.png",self.btn_config_click,"None")
+        self.btn_continuar = Button_Image(self._slave,x,y, 195, 455, 115, 45,"PROYECTO PYGAME copy\\Recursos\\Interfaz\\5.png",self.btn_continuar_click,"None")
         
         ### AGREGO CONTROLES A LA LISTA
         self.lista_widgets.append(self.btn_config)

@@ -17,7 +17,7 @@ class FormNivelCompletado(Form):
 
         self._slave = aux_imagen
         
-        self._btn_home = Button_Image(self._slave,master_x = x,master_y=y,x=200,y=200,w=100,h=100,color_background=(255,0,0),color_border=(255,0,255),onclick=self.btn_home_click,onclick_param="",text="",font="Verdana",font_size=15,font_color=(0,255,0),path_image="PROYECTO PYGAME\Recursos\Disparo\municion2.png")   
+        self._btn_home = Button_Image(self._slave,master_x = x,master_y=y,x=200,y=200,w=100,h=100,color_background=(255,0,0),color_border=(255,0,255),onclick=self.btn_home_click,onclick_param="",text="",font="Verdana",font_size=15,font_color=(0,255,0),path_image="PROYECTO PYGAME copy\Recursos\Disparo\municion2.png")   
         self.lista_widgets.append(self._btn_home)
     
     def btn_home_click(self,parametro):
